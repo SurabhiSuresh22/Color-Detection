@@ -44,14 +44,20 @@ def upload():
         lowerColor = np.array([130,137,10])
         upperColor = np.array([220,235,130])
         print(hsv_color)
+        
+
+hsv_color1 = np.asarray([0, 0, 255])   # white!
+hsv_color2 = np.asarray([30, 255, 255])   # yellow! note the order
+
+mask = cv2.inRange(img_hsv, hsv_color1, hsv_color2)
 
         image = cv2.imread(os.path.join(folder,file.filename))
         hsv_image = cv2.cvtColor(image,cv2.COLOR_BGR2HSV)
         mask_image = cv2.inRange(hsv_image, lowerColor,upperColor)
         final_image = cv2.bitwise_and(image,image,mask=mask_image)
 
-        cv2.imwrite(os.path.join(folder,filename),hsv_image)
-        #cv2.imwrite(os.path.join(folder,filename),mask_image)
+        #cv2.imwrite(os.path.join(folder,filename),hsv_image)
+        cv2.imwrite(os.path.join(folder,filename),mask_image)
         #cv2.imwrite(os.path.join(folder,filename),final_image)
 
         return redirect(url_for('uploaded_file',filename=filename))
